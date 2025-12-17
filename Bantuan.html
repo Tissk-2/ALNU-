@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pusat Bantuan - Flora Dan Fauna Nusantara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  
+    :root{
+      --accent: #2f8f56;
+      --accent-light: #e6f7eb;
+      --muted: #6b7280;
+      --card-bg: #ffffff;
+      --radius: 14px;
+      --container: 1100px;
+      --container2: 100% ;
+    }
+    *{box-sizing:border-box}
+    html,body{width: 100%; height:100%}
+    body{
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:#0f172a;
+      background:#e3e7de; /* Background halaman*/
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    
+    /* ========================================= */
+    /* STYLING TOPBAR (HEADER) - VERSI RESPONSIVE */
+    /* ========================================= */
+    
+    /* Checkbox tersembunyi untuk menu mobile */
+    .nav-toggle-checkbox {
+        display: none;
+    }
+
+    .topbar{
+      max-width:var(--container2);
+      width: 100%;
+      height: 50px;
+      margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px;
+      flex-shrink: 0; 
+      background-color: #F7F7F7;
+      position: fixed;
+      z-index: 20;
+      /* padding-right: 10px; Dihapus agar logo menempel di kiri */
+      box-shadow: 0 2px 10px rgba(15,23,42,0.1); 
+      position: relative; /* Diperlukan untuk memusatkan nav */
+    }
+    
+    .logo{display:flex; align-items:center; gap:10px; font-weight:700}
+    .logo-img {
+      height: 50px ;
+      border-bottom-right-radius:30px ;
+    }
+
+    /* Ikon hamburger (tiga garis) */
+    .nav-toggle-label {
+        display: none; /* Sembunyi di desktop */
+        width: 30px;
+        height: 24px;
+        cursor: pointer;
+        flex-direction: column;
+        justify-content: space-between;
+        z-index: 100; /* Pastikan di atas */
+        margin-right: 15px; /* Jarak dari tepi kanan di HP */
+    }
+    .nav-toggle-label span {
+        display: block;
+        height: 4px;
+        width: 100%;
+        background: var(--accent);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    /* DESKTOP: Pusatkan Navigasi */
+    nav {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 50;
+    }
+
+    nav ul{display:flex; gap: 28px; list-style:none; margin:0; padding:0}
+    nav a{color: #283228; text-decoration:none; font-weight:500; font-size: 15px;}
+    nav a:hover {
+      color: #4CAF50;
+      transition: 0.3s;
+    }
+
+    /* CSS DROPDOWN (Tetap disertakan) */
+    .nav-tentang-container {
+      position: relative;
+    }
+    .nav-overlay-dropdown {
+      position: absolute;
+      top: 120%; 
+      left: 50%;
+      transform: translateX(-50%) translateY(10px); 
+      width: 300px; 
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(15,23,42,0.15);
+      border: 1px solid #f0f0f0;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    .nav-overlay-dropdown .text {
+      position: static;
+      transform: none;
+      color: #333; 
+      font-size: 15px;
+      white-space: normal; 
+      overflow: visible;
+      text-align: left;
+    }
+    .nav-overlay-dropdown .text strong {
+        color: #0f172a;
+        font-size: 16px;
+    }
+    .nav-tentang-container:hover .nav-overlay-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    .login-btn{
+      background: #2F8F56 ;
+      padding: 9px 18px; 
+      border-radius: 999px; 
+      border:0;
+      color: #F7F7F7 ;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none; /* Ditambahkan agar <a> tidak bergaris bawah */
+      margin-right: 10px; /* Jarak dari tepi kanan di Desktop */
+    }
+    .login-btn:hover {
+      background-color: #277949; /* Diganti dari hover aneh */
+    }
+    
+    /* ========================================= */
+    /* FOOTER (BAGIAN BAWAH) - CSS ASLI */
+    /* ========================================= */
+    .main-footer {
+      background-color: #283228; 
+      color: #d4d4d4;
+      padding: 50px 40px 20px;
+      border-top: 5px solid #4CAF50;
+      font-family: 'Poppins', sans-serif;
+    }
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 40px;
+    }
+    .footer-column { flex: 1; min-width: 200px; }
+    .footer-column h3 {
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 40px;
+      height: 3px;
+      background-color: #8BC34A;
+      border-radius: 2px;
+    }
+    .about-us p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; }
+    .copyright { font-size: 0.8rem; color: #6a746a; margin-top: 30px; }
+    .quick-links ul { list-style: none; padding: 0; }
+    .quick-links a { text-decoration: none; color: #d4d4d4; font-size: 0.95rem; line-height: 2.2; transition: color 0.3s ease; }
+    .quick-links a:hover { color: #4CAF50; }
+    .contact-info p { font-size: 0.9rem; margin-bottom: 20px; }
+    .social-links p { font-size: 0.9rem; margin-bottom: 10px; color: #fff; }
+    .social-links a { color: #d4d4d4; margin-right: 15px; transition: color 0.3s ease, transform 0.3s ease; }
+    .social-links svg { width: 28px; height: 28px; stroke-width: 1.5; }
+    .social-links a:hover { color: #8BC34A; transform: scale(1.1); }
+    .btn-login-link { text-decoration: none; margin-left: 15px; }
+    .btn-login-nav { background-color: #4CAF50; color: #fff; padding: 8px 15px; border: 1px solid #4CAF50; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
+    
+    /* ========================================= */
+    /* == CSS KONTEN HALAMAN BANTUAN == */
+    /* ========================================= */
+    .main-bantuan {
+      /* Memberi jarak 100px dari atas agar tidak tertutup .topbar (50px) + 50px spasi */
+      padding-top: 50px; 
+      padding-bottom: 80px;
+      max-width: var(--container);
+      margin: 0 auto;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .bantuan-title {
+      font-size: 36px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 32px;
+      color: #0f172a; /* Warna teks judul utama */
+    }
+    .bantuan-card {
+      background: var(--card-bg); /* Menggunakan variabel --card-bg */
+      border-radius: var(--radius); /* Menggunakan variabel --radius */
+      padding: 32px 40px; /* Padding lebih besar untuk konten teks */
+      box-shadow: 0 8px 24px rgba(15,23,42,0.08);
+      border: 1px solid #f0f0f0;
+      max-width: 900px; /* Batasi lebar card agar mudah dibaca */
+      margin: 0 auto;
+    }
+    .faq-item {
+      margin-bottom: 24px;
+      border-bottom: 1px solid #e5e7eb; /* Garis pemisah antar FAQ */
+      padding-bottom: 20px;
+    }
+    .faq-item:last-child {
+      border-bottom: 0; /* FAQ terakhir tidak perlu garis bawah */
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .faq-item h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--accent); /* Menggunakan variabel --accent untuk judul FAQ */
+      margin: 0 0 10px;
+    }
+    .faq-item p {
+      font-size: 15px;
+      color: var(--muted); /* Menggunakan variabel --muted untuk teks jawaban */
+      line-height: 1.6;
+      margin: 0;
+    }
+    
+    /* ========================================= */
+    /* == CSS RESPONSIVE (TABLET & HP) == */
+    /* ========================================= */
+    
+    /* Tablet dan HP (di bawah 980px) */
+    @media (max-width: 980px) {
+
+        /* Tampilkan Ikon Hamburger */
+        .nav-toggle-label {
+            display: flex; /* Ubah dari none menjadi flex */
+        }
+
+        /* Kembalikan 'nav' dari 'position: absolute' */
+        nav {
+            position: static;
+            transform: none;
+        }
+
+        /* Sembunyikan dropdown hover di mobile */
+        .nav-overlay-dropdown {
+            display: none;
+        }
+
+        /* Gunakan '.menu-wrapper' untuk overlay */
+        .menu-wrapper {
+            position: fixed;
+            top: 50px; /* Di bawah topbar */
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 50px); /* Sisa tinggi layar */
+            background-color: var(--card-bg);
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            
+            /* Sembunyikan ke kanan */
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 20; /* Tepat di bawah topbar */
+        }
+
+        /* Tampilkan menu saat checkbox di-klik */
+        .nav-toggle-checkbox:checked ~ .menu-wrapper {
+            transform: translateX(0);
+        }
+
+        /* Ubah list nav jadi vertikal di overlay */
+        .topbar nav ul {
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        /* Perbesar font di overlay */
+        .topbar nav a {
+            font-size: 20px;
+        }
+        
+        /* Atur ulang 'login-btn' untuk overlay */
+        .login-btn {
+            font-size: 20px;
+            padding: 12px 30px;
+            margin-right: 0; /* Hapus margin kanan di overlay */
+        }
+        
+        .logo-img {
+            height: 60px; /* Kecilkan logo sedikit di tablet */
+        }
+    }
+    
+    /* Mobile Kecil (di bawah 560px) */
+    @media (max-width: 560px) {
+        
+        /* Aturan footer (sudah ada) */
+        .footer-container { flex-direction: column; text-align: center; }
+        .footer-column h3::after { left: 50%; transform: translateX(-50%); }
+        
+        /* Aturan konten bantuan */
+        .bantuan-title {
+            font-size: 28px; /* Kecilkan judul */
+            margin-bottom: 24px;
+        }
+        .bantuan-card {
+            padding: 24px 20px; /* Kurangi padding di HP */
+        }
+        .faq-item h3 {
+            font-size: 18px; /* Kecilkan judul FAQ */
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+  
+    <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox">
+
+    <div class="logo">
+      <img src="NU1.jpg" alt="Alam Nusantara Logo" class="logo-img">
+    </div>
+    
+    <div class="menu-wrapper">
+      <nav>
+        <ul>
+          <li><a href="Landing-Page.html">Beranda</a></li>
+          <li><a href="Flora.html">Flora</a></li>
+          <li><a href="Fauna.html">Fauna</a></li>
+          
+          <li class="nav-tentang-container">
+            <a href="tentang.html">Tentang</a>
+            <div class="overlay nav-overlay-dropdown">
+              <div class="text">
+                <strong>Tentang Website Ini</strong>
+                <p style="margin-top: 8px; white-space: normal; line-height: 1.5;">
+                  Website ini dibuat untuk memberi informasi edukatif kepada masyarakat tentang flora dan fauna di Nusantara.
+                </p>
+              </div>
+            </div>
+          </li>
+          <li><a href="bantuan.html" style="color: var(--accent); font-weight: 700;">Bantuan</a></li>
+        </ul>
+      </nav>
+      
+      <div style="display:flex;gap:12px;align-items:left">
+        <a class="login-btn" href="login.html"> Login</a>
+      </div>
+    </div>
+    
+    <label for="nav-toggle" class="nav-toggle-label">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+
+  </div>
+
+  <main class="main-bantuan">
+    <h2 class="bantuan-title">Pusat Bantuan</h2>
+    
+    <div class="bantuan-card">
+      
+      <div class="faq-item">
+        <h3>Apa itu Alam Nusantara (ALNU)?</h3>
+        <p>
+          ALNU (Alam Nusantara) adalah sebuah platform digital yang berdedikasi untuk mendokumentasikan dan memberikan informasi edukatif mengenai keanekaragaman hayati flora dan fauna yang ada di wilayah Nusantara (Indonesia).
+        </p>
+      </div>
+      
+      <div class="faq-item">
+        <h3>Bagaimana cara mencari flora atau fauna?</h3>
+        <p>
+          Anda dapat menggunakan fitur pencarian di halaman Beranda dengan mengetikkan nama flora atau fauna yang Anda cari, lalu tekan 'Enter'. Anda juga dapat menelusuri kategori 'Flora' dan 'Fauna' melalui link di navigasi atas.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Apakah saya perlu mendaftar atau login?</h3>
+        <p>
+          Saat ini, semua informasi edukatif di website kami dapat diakses secara bebas tanpa perlu mendaftar atau login. Tombol 'Login' disediakan untuk fitur like dan juga komen.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Bagaimana saya bisa menghubungi Anda?</h3>
+        <p>
+          Untuk pertanyaan, masukan, atau kolaborasi, Anda dapat menghubungi kami melalui email di <strong>Ajaarpan2@gmail.com</strong>. Anda juga dapat menemukan kami di media sosial yang tertera di bagian footer.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Informasi apa saja yang bisa saya dapatkan di website ini?</h3>
+        <p>
+          Website ini menyediakan katalog flora dan fauna, termasuk gambar, deskripsi singkat, suara Fauna,  status (misalnya endemik, populer), dan klasifikasi. Tujuannya adalah untuk memberi kesadaran dan juga edukasi kepada masyarakat umum.
+        </p>
+      </div>
+      
+    </div>
+  </main>
+
+  <footer class="main-footer">
+    <div class="footer-container">
+  
+      <div class="footer-column about-us">
+        <h3>Alam Nusantara</h3>
+        <p>
+          ALNU (Alam Nusantara) berdedikasi untuk mendokumentasikan 
+          keanekaragaman flora dan fauna hayati yang 
+          berada di wilayah Nusantara.
+        </p>
+        <p class="copyright">&copy; 2025 ALNU Alam Nusantara. Hak Cipta Dilindungi.</p>
+      </div>
+  
+      <div class="footer-column quick-links">
+        <h3>Navigasi Cepat</h3>
+        <ul>
+          <li><a href="beranda.html">Beranda</a></li>
+          <li><a href="flora.html">Flora</a></li>
+          <li><a href="fauna.html">Fauna</a></li>
+          <li><a href="tentang.html">Tentang Kami</a></li>
+          <li><a href="bantuan.html">Bantuan</a></li>
+          <li><a href="login_admin.html">Login Admin</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-column contact-social">
+        <h3>Hubungi Kami</h3>
+        <div class="contact-info">
+          <p>Email: Ajaarpan2@gmail.com</p>
+        </div>
+  
+        <div class="social-links">
+    
+        <p class="text-sm font-semibold mb-2">Ikuti Kami:</p>
+          <div class="flex space-x-4 items-center">
+            <a href="https://www.instagram.com/arfanypkzt/" target="_blank" aria-label="Instagram" class="text-gray-300 hover:text-primary-teal transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram-icon lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            </a>
+          
+            <a href="https://www.facebook.com" target="_blank" aria-label="Facebook" class="text-gray-300 hover:text-primary-teal transition duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

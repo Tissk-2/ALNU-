@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar | Alam Nusantara</title>
+    <style>
+        
+        :root {
+            --color-primary: #386641;
+            --color-dark: #2F4858; 
+            --color-light: #FFFFFF; 
+            --color-accent: #6A994E; 
+            --color-text-dark: #283228;
+            --color-text-light: #FFFFFF;
+        }
+
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--color-light);
+            line-height: 1.6;
+        }
+
+       
+        .auth-page {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        
+        .auth-sidebar {
+            width: 40%;
+            display: none; 
+        }
+
+        .sidebar-image {
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end; 
+            padding: 30px;
+            position: relative;
+        }
+
+        .sidebar-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4); 
+            z-index: 1;
+        }
+
+        .quote {
+            color: var(--color-text-light);
+            font-size: 1.5rem;
+            font-weight: 600;
+            z-index: 2;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Konten Utama */
+        .auth-main {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0px 20px 30px 20px;
+        }
+
+        
+        @media (min-width: 768px) {
+            .auth-sidebar {
+                display: block; 
+            }
+            .auth-main {
+                width: 60%;
+            }
+        }
+
+        .auth-form {
+            width: 100%;
+            max-width: 500px;
+            background: var(--color-text-light);
+            padding: 20px;
+            border-radius: 12px;
+        
+        }
+
+        
+        .form-logo-area {
+            text-align: center;
+            margin-bottom: 0px;
+        }
+        .form-logo-area img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text-dark);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .welcome-subtitle {
+            font-size: 0.9rem;
+            color: #6B7280;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        
+        .input-group {
+            margin-bottom: 18px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-dark);
+            margin-bottom: 6px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #D1D5DB; 
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .input-group input:focus {
+            border-color: var(--color-primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(56, 102, 65, 0.2);
+        }
+        .input-group input::placeholder {
+            color: #9CA3AF;
+        }
+
+        
+        .btn-auth {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-top: 10px;
+        }
+        .btn-auth:hover {
+            background-color: var(--color-accent);
+        }
+        .btn-auth:active {
+            transform: scale(0.99);
+        }
+
+        
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 0.85rem;
+            color: #9CA3AF;
+            position: relative;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #E5E7EB;
+        }
+        .divider::before {
+            left: 0;
+        }
+        .divider::after {
+            right: 0;
+        }
+
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #D1D5DB;
+            border-radius: 50%;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+        .social-icon:hover {
+            border-color: var(--color-primary);
+        }
+        .social-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        
+        .social-icon.google svg path:first-child { fill: #4285F4; }
+        .social-icon.google svg path:nth-child(2) { fill: #34A853; }
+        .social-icon.google svg path:nth-child(3) { fill: #FBBC05; }
+        .social-icon.google svg path:nth-child(4) { fill: #EA4335; }
+
+        .social-icon.facebook svg {
+            color: #1877F2;
+            fill: #1877F2;
+        }
+        .social-icon.facebook:hover {
+            border-color: #1877F2;
+        }
+
+        
+        .signup-link {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--color-text-dark);
+        }
+        .link-daftar {
+            color: var(--color-primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .link-daftar:hover {
+            color: var(--color-accent);
+            text-decoration: underline;
+        }
+        
+
+    </style>
+</head>
+<body>
+
+<div class="auth-page">
+    
+    <div class="auth-sidebar">
+        <div class="sidebar-image" style="background-image: url('Rectangle\ 152.png');">
+            <p class="quote">"Jelajahi flora dan fauna yang ada di Nusantara"</p>
+        </div>
+    </div>
+
+    
+    <div class="auth-main">
+        <form class="auth-form">
+            
+            <div class="form-logo-area">
+                <img src="Rectangle 153.png" alt="ALNU Alam Nusantara Logo">
+            </div>
+
+            <h1 class="welcome-title">SELAMAT DATANG DI ALNU!</h1>
+            <p class="welcome-subtitle">Daftar sekarang untuk dapat menjelajahi<br>flora dan fauna yang ada di Nusantara!</p>
+
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan Username Anda" required>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Masukkan Email Anda" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Buat Kata Sandi" required>
+            </div>
+
+            <button type="submit" class="btn-auth">Daftar</button>
+            
+            <div class="divider">atau</div>
+            
+            
+            <div class="social-login">
+                <a href="#" class="social-icon google" aria-label="Masuk dengan Google">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.24 10.22v3.75h6.42c-.28 1.83-1.07 3.39-2.34 4.54l-3.9 3.12v-3.75l2.45-1.99c.7-.58 1.14-1.39 1.29-2.28h-5.92v-3.75h6.42z" fill="#4285F4"/>
+                        <path d="M5.4 12.02c0-1.42.36-2.76 1.02-3.89l-3.9-3.12c-1.35 2.12-2.12 4.67-2.12 7.01 0 2.34.77 4.89 2.12 7.01l3.9-3.12c-.66-1.13-1.02-2.47-1.02-3.89z" fill="#34A853"/>
+                        <path d="M12.24 6.78c1.78 0 3.36.6 4.62 1.76l3.47-3.47C18.6 2.65 15.65 1.5 12.24 1.5c-2.7 0-5.26.8-7.38 2.3l3.9 3.12c.66-1.13 2-1.76 3.48-1.76z" fill="#FBBC05"/>
+                        <path d="M12.24 18.72c-1.78 0-3.36-.6-4.62-1.76l-3.9 3.12c2.12 1.5 4.68 2.3 7.38 2.3 3.41 0 6.36-1.15 8.66-3.47l-3.47-3.47c-1.26 1.16-2.84 1.76-4.62 1.76z" fill="#EA4335"/>
+                    </svg>
+                </a>
+                
+                <a href="#" class="social-icon facebook" aria-label="Masuk dengan Facebook">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <p class="signup-link">Sudah punya akun? <a href="masuk.html" class="link-daftar">Masuk</a></p>
+            
+        </form>
+    </div>
+</div>
+
+<script>
+    document.querySelector('.auth-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Mencegah halaman reload sendiri
+        
+        // Di sini Anda bisa menambahkan logika lain jika perlu
+        
+        // Perintah untuk pindah ke file lain
+        window.location.href = 'login.html'; 
+    });
+</script>
+
+</body>
+</html>

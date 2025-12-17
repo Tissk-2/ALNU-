@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - ALNU Final</title>
+    
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Variabel Warna dan Desain */
+        :root {
+            --color-primary: #375338; /* Sidebar, teks aktif, chart */
+            --color-accent: #60a75f; /* logo, indikator */
+            --color-bg-light: #f4f4f4;
+            --color-card-bg: #ffffff;
+            --color-text-dark: #1f1f1f;
+            --color-text-subtle: #666; /* Warna teks sekunder (ikon, label) */
+            --sidebar-width: 280px;
+            --main-container-border-radius: 20px;
+            --card-border-radius: 12px; 
+            --shadow-subtle: 0 5px 15px rgba(0, 0, 0, 0.08); /* Bayangan umum */
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-primary); /* Latar belakang body warna hijau gelap */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Wrapper utama untuk menampung sidebar dan konten */
+        .main-wrapper {
+            display: flex;
+            width: 95vw;
+            height: 95vh;
+            background-color: var(--color-primary); 
+            border-radius: var(--main-container-border-radius);
+            overflow: hidden; 
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); 
+        }
+
+        /* ==================================== */
+        /* 1. SIDEBAR (Navigasi Kiri) */
+        /* ==================================== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--color-primary);
+            color: #fff;
+            padding: 25px 0; 
+            display: flex;
+            flex-direction: column;
+            position: relative; 
+            flex-shrink: 0; 
+        }
+
+        .logo-section {
+            padding: 0 30px 30px 30px; 
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; 
+            align-items: center;
+        }
+
+        /* Shape di belakang Logo - REVISI UKURAN */
+        .logo-shape-wrapper {
+            position: relative; 
+            width: 65px; /* REVISI: UKURAN LEBIH BESAR */
+            height: 65px; /* REVISI: UKURAN LEBIH BESAR */
+            margin-right: 18px; /* Jarak disesuaikan */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .logo-shape {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-card-bg); 
+            border-radius: 14px; /* Sudut membulat disesuaikan */
+            transform: rotate(-10deg); 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+        }
+        .logo-section img {
+            position: relative; 
+            z-index: 2; 
+            height: 45px; /* REVISI: UKURAN LOGO LEBIH BESAR */
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            margin: 0; 
+        }
+
+        .logo-text h3 {
+            font-size: 1.3rem; /* REVISI: FONT H3 LEBIH BESAR */
+            font-weight: 800;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .logo-text p {
+            font-size: 0.7rem; 
+            margin: 5px 0 0 0;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        /* Navigasi */
+        .nav-menu {
+            flex-grow: 1; 
+            padding: 0 20px;
+            list-style: none;
+        }
+        .nav-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 8px 0;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+            font-weight: 500;
+        }
+
+        .nav-item a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .nav-item.active a {
+            background-color: var(--color-card-bg); 
+            color: var(--color-primary);
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+        }
+
+        .nav-item a svg {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            stroke-width: 2;
+        }
+
+        .nav-item.active a svg {
+            stroke: var(--color-primary);
+        }
+        .nav-item:not(.active) a svg {
+             stroke: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Submenu */
+        .submenu-toggle {
+            cursor: pointer;
+        }
+        .submenu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .submenu-item a {
+            display: flex; 
+            align-items: center;
+            padding: 8px 15px 8px 50px; 
+            margin: 0;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+        }
+        .submenu-item a svg {
+            margin-right: 10px; 
+            width: 16px;
+            height: 16px;
+            stroke-width: 1.8;
+            stroke: rgba(255, 255, 255, 0.6);
+        }
+        .submenu-item a:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .nav-item.expanded .submenu-list {
+            max-height: 150px; 
+        }
+        .nav-item.expanded .submenu-toggle svg {
+            transform: rotate(180deg);
+        }
+
+        /* Tombol Log Out (Kembali ke Beranda) */
+        .btn-logout-section {
+            position: absolute; 
+            bottom: 25px; 
+            left: 0;
+            right: 0;
+            padding: 0 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+        }
+        
+        .btn-logout {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; 
+            width: 100%;
+            padding: 12px 15px;
+            background-color: transparent; 
+            color: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        
+        .btn-logout svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            stroke: rgba(255, 255, 255, 0.9);
+            transition: stroke 0.2s ease;
+        }
+        .btn-logout:hover svg {
+            stroke: #fff;
+        }
+
+        /* ==================================== */
+        /* 2. MAIN CONTENT AREA */
+        /* ==================================== */
+        .main-content-area {
+            flex-grow: 1;
+            background-color: var(--color-card-bg); 
+            border-radius: var(--main-container-border-radius);
+            padding: 40px; 
+            overflow-y: auto; 
+            margin-left: -var(--main-container-border-radius); 
+            padding-left: calc(40px + var(--main-container-border-radius)); 
+            box-shadow: var(--shadow-subtle);
+        }
+        
+        .header-content h1 {
+            font-size: 1.8rem;
+            color: var(--color-text-dark);
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        /* Metric Cards */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background-color: var(--color-bg-light); 
+            border-radius: var(--card-border-radius);
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); 
+            transition: transform 0.2s ease;
+            position: relative;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metric-card h2 {
+            font-size: 0.9rem;
+            color: var(--color-text-subtle);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        
+        .metric-card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-text-dark);
+            margin: 0;
+            line-height: 1.2;
+        }
+        .metric-card.flora-card h3, .metric-card.fauna-card h3 {
+            font-size: 1.4rem; 
+        }
+
+        .metric-card p {
+            font-size: 0.8rem;
+            color: var(--color-text-subtle);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .metric-card .icon-primary {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 24px;
+            height: 24px;
+            stroke: var(--color-text-subtle); 
+            fill: transparent;
+            stroke-width: 2;
+        }
+        
+        /* Aksen Like Card untuk status badge */
+        .like-count {
+            position: absolute;
+            bottom: 15px; 
+            right: 20px; 
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-primary); 
+            background: #e9f5e9;
+            padding: 4px 8px;
+            border-radius: 10px;
+        }
+
+        /* Chart Area Styling */
+        .chart-area {
+            background-color: var(--color-card-bg);
+            border-radius: var(--card-border-radius);
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee; 
+        }
+        
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-text-dark);
+            margin-bottom: 25px;
+        }
+
+        /* SVG Chart Placeholder */
+        .svg-chart-placeholder {
+            width: 100%;
+            height: 250px;
+        }
+        
+        .svg-chart-placeholder .axis-label {
+            font-size: 10px;
+            fill: var(--color-text-subtle);
+        }
+        .svg-chart-placeholder .chart-line {
+            fill: none;
+            stroke: var(--color-primary); 
+            stroke-width: 3;
+        }
+        
+        /* Responsifitas */
+        @media (max-width: 1200px) {
+            .metric-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-wrapper {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+            }
+            .sidebar {
+                width: 100%;
+                height: 60px;
+                position: relative;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0;
+            }
+            .logo-section {
+                padding: 10px 20px;
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+            .logo-text h3 {
+                font-size: 1.1rem; 
+            }
+            .logo-text p {
+                display: none; 
+            }
+            .nav-menu, .btn-logout-section {
+                display: none; 
+            }
+            
+            .main-content-area {
+                margin-left: 0;
+                padding: 20px;
+                border-radius: 0;
+            }
+            .metric-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+    </style>
+    <script>
+        // Fungsi untuk handle toggle submenu
+        function toggleSubmenu(event) {
+            event.preventDefault(); 
+            const item = event.currentTarget.closest('.nav-item');
+            if (item) {
+                item.classList.toggle('expanded');
+            }
+        }
+
+        // Fungsi untuk simulasi chart line menggunakan SVG
+        function generateChart() {
+            const svg = document.querySelector('.svg-chart-placeholder');
+            if (!svg) return;
+
+            const dataPoints = [2000, 1800, 1000, 1300, 900, 300, 2100, 1500, 2300, 1900, 400, 1700, 500, 1800, 2000];
+            const maxVal = 2500;
+            const height = 250;
+            const width = 1000;
+            const padding = 30;
+            const chartHeight = height - padding * 2;
+            const chartWidth = width - padding * 2;
+            const xStep = chartWidth / (dataPoints.length - 1);
+            
+            let points = [];
+            
+            dataPoints.forEach((val, i) => {
+                const x = padding + i * xStep;
+                const y = height - padding - (val / maxVal) * chartHeight;
+                points.push(`${x},${y}`);
+            });
+
+            // Menghasilkan konten SVG
+            let svgContent = `
+                <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#ddd" stroke-width="1" />
+                
+                <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="#ddd" stroke-width="1" />
+                
+                <text x="${padding - 5}" y="${padding + 5}" text-anchor="end" class="axis-label">2500</text>
+                <text x="${padding - 5}" y="${height - padding - (2000 / maxVal) * chartHeight + 5}" text-anchor="end" class="axis-label">2000</text>
+                <text x="${padding - 5}" y="${height - padding - (1500 / maxVal) * chartHeight + 5}" text-anchor="end" class="axis-label">1500</text>
+                <text x="${padding - 5}" y="${height - padding - (1000 / maxVal) * chartHeight + 5}" text-anchor="end" class="axis-label">1000</text>
+                <text x="${padding - 5}" y="${height - padding - (500 / maxVal) * chartHeight + 5}" text-anchor="end" class="axis-label">500</text>
+                <text x="${padding - 5}" y="${height - padding + 5}" text-anchor="end" class="axis-label">0</text>
+                
+                ${dataPoints.map((_, i) => {
+                    const x = padding + i * xStep;
+                    const label = 'hari ' + (i + 1); 
+                    return i % 3 === 0 ? '<text x="' + x + '" y="' + (height - padding + 15) + '" text-anchor="middle" class="axis-label">' + label + '</text>' : '';
+                }).join('')}
+
+
+                <polyline points="${points.join(' ')}" class="chart-line" />
+                
+                ${dataPoints.map((val, i) => {
+                    const x = padding + i * xStep;
+                    const y = height - padding - (val / maxVal) * chartHeight;
+                    return `<circle cx="${x}" cy="${y}" r="4" fill="var(--color-primary)" stroke="#fff" stroke-width="1.5" 
+                                        onmouseover="this.setAttribute('r', '6')    " 
+                                        onmouseout="this.setAttribute('r', '4')" />`;
+                }).join('')}
+            `;
+
+            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            svg.innerHTML = svgContent;
+        }
+
+        window.onload = function() {
+            generateChart();
+            
+            const dataToggles = document.querySelectorAll('.submenu-toggle');
+            dataToggles.forEach(toggle => {
+                toggle.addEventListener('click', toggleSubmenu);
+            });
+        };
+    </script>
+</head>
+<body>
+    
+    <div class="main-wrapper">
+        <div class="sidebar">
+            <div class="logo-section">
+                <div class="logo-shape-wrapper">
+                    <div class="logo-shape"></div>
+                    <img src="NU2.jpg" alt="ALNU Logo">
+                </div>
+                
+                <div class="logo-text">
+                    <h3>ALNU Dashboard</h3>
+                    <p>Alam Nusantara</p>
+                </div>
+            </div>
+
+            <div class="nav-menu">
+                <ul>
+                    <li class="nav-item active">
+                        <a href="dashboard_admin.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                            Dashboard
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="#" class="submenu-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+                            Data
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" style="margin-left: auto; width: 16px; height: 16px; transition: transform 0.3s;"><path d="m6 9 6 6 6-6"/></svg>
+                        </a>
+                        <ul class="submenu-list">
+                            <li class="submenu-item">
+                                <a href="data_flora.html">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flower-icon lucide-flower"><circle cx="12" cy="12" r="3"/><path d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5"/><path d="M12 7.5V9"/><path d="M7.5 12H9"/><path d="M16.5 12H15"/><path d="M12 16.5V15"/><path d="m8 8 1.88 1.88"/><path d="M14.12 9.88 16 8"/><path d="m8 16 1.88-1.88"/><path d="M14.12 14.12 16 16"/></svg>
+                                    Data Flora
+                                </a>
+                            </li>
+                            <li class="submenu-item">
+                                <a href="data_fauna.html">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paw-print-icon lucide-paw-print"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></svg>
+                                    Data Fauna
+                                </a>
+                            </li>
+                            <li class="submenu-item">
+                                <a href="data_pengguna.html">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    Data Pengguna
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+        </div>
+
+        <div class="main-content-area">
+            
+            <div class="header-content">
+                <h1>Selamat datang kembali!</h1>
+            </div>
+
+            <div class="metric-grid">
+                
+                <div class="metric-card">
+                    <h2>TOTAL PENGUNJUNG</h2>
+                    <h3>2000</h3>
+                    <p>Dalam 1 hari</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="icon-primary lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                
+                <div class="metric-card flora-card">
+                    <h2>LIKE TERTINGGI FLORA</h2>
+                    <h3>Anggrek hitam</h3>
+                    <p>Status: Aman</p>
+                    <span class="like-count">185</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="icon-primary lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+
+                <div class="metric-card fauna-card">
+                    <h2>LIKE TERTINGGI FAUNA</h2>
+                    <h3>Komodo</h3>
+                    <p>Status: Rentan</p>
+                    <span class="like-count">185</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="icon-primary lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+            </div>
+
+            <div class="chart-area">
+                <h2 class="chart-title">Statistik Kunjungan Harian (15 Hari Terakhir)</h2>
+                <svg class="svg-chart-placeholder"></svg>
+            </div>
+            
+        </div>
+    </div>
+    
+</body>
+</html>

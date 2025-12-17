@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flora | Alam Nusantara</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variabel Warna */
+        :root {
+            --color-primary-dark: #283228; /* Hijau Tua/Navbar/Footer */
+            --color-primary-accent: #4CAF50; /* Hijau Aksen/Tombol */
+            --color-link-hover: #8BC34A; /* Hijau Terang untuk hover/active */
+        }
+        
+        body {
+            font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+        }
+        /* RESET dan FONT Dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+    
+        /* HEADER (NAVBAR) */
+        .topbar{
+            max-width:var(--container2);
+            width: 100%;
+            height: 50px;
+            margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px;
+            flex-shrink: 0; 
+            background-color: #FFFFFF;
+            position: fixed;
+            z-index: 20;
+            padding-right: 10px;
+        
+        }
+        
+        .logo{display:flex; align-items:center; gap:10px; font-weight:700}
+        .logo-img {
+            height: 50px ;
+            border-bottom-right-radius:30px ;
+        
+        
+        }
+        nav ul{display:flex; gap: 28px; list-style:none; margin:0; padding:0}
+        nav a{color: #283228; text-decoration:none; font-weight:500; font-size: 15px;}
+        nav a:hover {
+            color: #4CAF50;
+            transition: 0.3s;
+        }
+
+        /* ======================================================= */
+        /* == BLOK CSS UNTUK DROPDOWN NAVIGASI 'TENTANG' == */
+        /* ======================================================= */
+        .nav-tentang-container {
+            position: relative;
+        }
+        .nav-overlay-dropdown {
+            position: absolute;
+            top: 120%; 
+            left: 50%;
+            transform: translateX(-50%) translateY(10px); 
+            width: 300px; 
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(15,23,42,0.15);
+            border: 1px solid #f0f0f0;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        .nav-overlay-dropdown .text {
+            position: static;
+            transform: none;
+            color: #333; 
+            font-size: 15px;
+            white-space: normal; 
+            overflow: visible;
+            text-align: left;
+        }
+        .nav-overlay-dropdown .text strong {
+            color: #0f172a;
+            font-size: 16px;
+        }
+        .nav-tentang-container:hover .nav-overlay-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        /* ================================== */
+        /* == AKHIR BLOK CSS DROPDOWN == */
+        /* ================================== */
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            padding: 4px 8px;
+            border-radius: 50px;
+            transition: background-color 0.2s;
+        }
+        
+        .user-profile:hover {
+            background-color: #f3f4f6;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+        }
+
+        .username {
+            font-weight: 600;
+            font-size: 14px;
+            color: #283228;
+            line-height: 1.2;
+        }
+
+        .user-role {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        /* -------------------------------------- */
+        /* GAYA KONTEN UTAMA (KARTU FLORA) */
+        /* -------------------------------------- */
+        .bg-primary-dark { background-color: var(--color-primary-dark); }
+        .text-primary-dark { color: var(--color-primary-dark); }
+        .border-primary-accent { border-color: var(--color-primary-accent); }
+        .text-primary-accent { color: var(--color-primary-accent); }
+        
+        .flora-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .flora-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .flora-image-container {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .flora-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .flora-card:hover .flora-image {
+            transform: scale(1.05);
+        }
+        
+        .btn-detail {
+            background-color: var(--color-primary-accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-detail:hover {
+            background-color: #5cb85c;
+        }
+
+        .main-footer {
+        /* Warna Background Hijau Gelap Solid (sesuai navbar) */
+            background-color: #283228; 
+            color: #d4d4d4; /* Warna teks abu-abu terang */
+            padding: 50px 40px 20px; /* Padding atas, samping, dan bawah */
+            border-top: 5px solid #4CAF50; /* Garis pemisah hijau cerah (aksen) */
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px; /* Batasi lebar container agar tidak terlalu lebar di layar besar */
+            margin: 0 auto;
+            gap: 40px;
+        }
+
+    /* KONTROL KOLOM */
+        .footer-column {
+            flex: 1; /* Memberikan porsi yang sama pada setiap kolom */
+            min-width: 200px;
+        }
+
+        .footer-column h3 {
+            color: #fff; /* Judul kolom lebih cerah */
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        /* Garis dekoratif minimalis di bawah judul kolom */
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 40px;
+            height: 3px;
+            background-color: #8BC34A; /* Hijau cerah */
+            border-radius: 2px;
+        }
+
+    /* TENTANG KAMI */
+        .about-us p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            color: #6a746a;
+            margin-top: 30px;
+        }
+
+        /* NAVIGASI CEPAT */
+        .quick-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .quick-links a {
+            text-decoration: none;
+            color: #d4d4d4;
+            font-size: 0.95rem;
+            line-height: 2.2; /* Jarak antar tautan */
+            transition: color 0.3s ease;
+        }
+
+        .quick-links a:hover {
+            color: #4CAF50; /* Warna hijau cerah saat hover */
+        }
+
+    /* KONTAK & SOSIAL MEDIA */
+        .contact-info p {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .social-links p {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .social-links a {
+            color: #d4d4d4;
+            margin-right: 15px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links svg {
+            width: 28px; /* Ukuran ikon sedikit lebih besar */
+            height: 28px;
+            stroke-width: 1.5; /* Membuat garis ikon terlihat lebih tipis/elegan */
+        }
+
+        .social-links a:hover {
+            color: #8BC34A; /* Hijau terang saat hover */
+            transform: scale(1.1); /* Sedikit efek zoom */
+        }
+
+        .btn-login-link {
+            text-decoration: none; /* Hilangkan garis bawah pada tautan */
+            /* Mungkin tambahkan margin-left jika diperlukan untuk jarak */
+            margin-left: 15px;
+        }
+
+        .btn-login-nav {
+            /* Tetap gunakan style tombol yang sudah ada */
+            background-color: #4CAF50; 
+            color: #fff;
+            padding: 8px 15px;
+            border: 1px solid #4CAF50;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+    </style>
+        
+    
+</head>
+<body>
+    
+    <div class="min-h-screen flex flex-col">
+        
+  <header class="site-header">
+    <div class="topbar">
+
+      <div class="logo">
+        <img src="NU1.jpg" alt="Alam Nusantara Logo" class="logo-img">
+      </div>
+      
+      <nav>
+        <ul>
+          <li><a href="Landing-Page2.html">Beranda</a></li>
+          <li><a href="Flora2.html" style="color: #2f8f56; font-weight: 700;">Flora</a></li>
+          <li><a href="Fauna2.html">Fauna</a></li>
+          
+          <li class="nav-tentang-container">
+            <a href="tentang2.html">Tentang</a>
+            <div class="overlay nav-overlay-dropdown">
+              <div class="text">
+                <strong>Tentang Website Ini</strong>
+                <p style="margin-top: 8px; white-space: normal; line-height: 1.5;">
+                  Website ini dibuat untuk memberi informasi edukatif kepada masyarakat tentang flora dan fauna di Nusantara.
+                </p>
+              </div>
+            </div>
+          </li>
+          <li><a href="bantuan2.html">Bantuan</a></li>
+        </ul>
+      </nav>
+      
+      <a href="Profile.html" class="user-profile">
+        <div class="user-info">
+            <span class="username">Arfany</span>
+            <span class="user-role">User</span>
+        </div>
+        <img src="https://i.pinimg.com/736x/37/96/9b/37969b91bd7b268a4981a3f9df19fadd.jpg" alt="Profile" class="profile-pic">
+      </a>
+      </div>
+    
+  </header>
+
+        <main class="flex-grow py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <header class="text-center mb-16">
+                    <h1 class="text-4xl sm:text-5xl font-extrabold text-primary-dark mb-4 leading-tight" style="padding-top: 30px;">
+                        Eksplorasi <span class="text-primary-accent">Flora</span> Nusantara
+                    </h1>
+                    <p class="text-lg text-gray-600 max-w-4xl mx-auto">
+                        Jelajahi keindahan dan keragaman flora yang ada di Nusantara.
+                    </p>
+                </header>
+
+                <div class="flex flex-wrap justify-between items-center mb-10 p-4 bg-white rounded-xl shadow-md">
+                    <div class="mb-4 md:mb-0">
+                        <label for="sort" class="text-gray-700 font-medium mr-2">Urutkan Berdasarkan:</label>
+                        <select id="sort" class="border border-gray-300 rounded-lg p-2 focus:ring-primary-accent focus:border-primary-accent">
+                            <option>Nama (A-Z)</option>
+                            <option>Provinsi</option>
+                            <option>Status Konservasi</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="🔍︎  Cari Spesies..." class="border border-gray-300 rounded-lg p-2 w-full md:w-64 focus:ring-primary-accent focus:border-primary-accent">
+                    </div>
+                </div>
+
+                <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    
+                    <div class="flora-card bg-white shadow-xl">
+                        <div class="flora-image-container">
+                            <img src="https://images.unsplash.com/photo-1654180467459-cb1948a82073?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA==&auto=format&fit=crop&q=80&w=1170" alt="Bunga Rafflesia Arnoldii" class="flora-image">
+                        </div>
+                        <div class="p-6">
+                            <span class="inline-block bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full font-semibold mb-3">Kritis (CR)</span>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Padma Raksasa</h3>
+                            <p class="text-sm text-gray-500 mb-4 italic">Rafflesia Arnoldii</p>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Bunga terbesar di dunia, endemik di hutan Sumatera. Dikenal karena bau bangkainya dan merupakan spesies parasit.
+                            </p>
+                            <a href="Rafflesia2.html" class="btn-detail">
+                                Detail Spesies
+                                <svg data-lucide="arrow-right" class="w-4 h-4 ml-2"></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flora-card bg-white shadow-xl">
+                        <div class="flora-image-container">
+                            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi-vS0AM_kBQO1StnAZH2dlOhHDJvxzrUG8BwgABcBaGicw4NBggQmNt4yZ0iPmMJneXxyUaAuXSZB2FiNNLxr3PpO29cL8dzgAiVyDNdOSnFdUOOkAMpYve7AFPiAmGwzX5Q8fmtLipWSn/s400/ebony-tree2.jpg" alt="Pohon Eboni" class="flora-image">
+                        </div>
+                        <div class="p-6">
+                            <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full font-semibold mb-3">Rentan (VU)</span>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Pohon Eboni</h3>
+                            <p class="text-sm text-gray-500 mb-4 italic">Diospyros celebica</p>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Pohon penghasil kayu hitam berkualitas tinggi, endemik Sulawesi. Eksploitasi berlebihan membuatnya rentan.
+                            </p>
+                            <a href="" class="btn-detail">
+                                Detail Spesies
+                                <svg data-lucide="arrow-right" class="w-4 h-4 ml-2"></svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="flora-card bg-white shadow-xl">
+                        <div class="flora-image-container">
+                            <img src="https://awsimages.detik.net.id/community/media/visual/2020/11/30/anggrek-hitam-papua_169.jpeg?w=1200" alt="Anggrek Hitam" class="flora-image">
+                        </div>
+                        <div class="p-6">
+                            <span class="inline-block bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full font-semibold mb-3">Terancam Punah (EN)</span>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Anggrek Hitam</h3>
+                            <p class="text-sm text-gray-500 mb-4 italic">Coelogyne pandurata</p>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Anggrek unik dengan lidah berwarna hitam. Kelangkaannya disebabkan oleh perusakan habitat gambut dan perdagangan ilegal.
+                            </p>
+                            <a href="AnggrekHitam.html" class="btn-detail">
+                                Detail Spesies
+                                <svg data-lucide="arrow-right" class="w-4 h-4 ml-2"></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flora-card bg-white shadow-xl">
+                        <div class="flora-image-container">
+                            <img src="https://mitalom.com/wp-content/uploads/2017/11/Gambar-Kantong-Semar.jpg" alt="Kantong Semar" class="flora-image">
+                        </div>
+                        <div class="p-6">
+                            <span class="inline-block bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full font-semibold mb-3">Risiko Rendah (LC)</span>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Kantong Semar</h3>
+                            <p class="text-sm text-gray-500 mb-4 italic">Nepenthes spp.</p>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Kelompok tanaman pemakan serangga yang tersebar luas, terutama di Sumatera dan Kalimantan, dengan banyak spesies endemik.
+                            </p>
+                            <a href="KantongSemar.html" class="btn-detail">
+                                Detail Spesies
+                                <svg data-lucide="arrow-right" class="w-4 h-4 ml-2"></svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="flora-card bg-white shadow-xl">
+                        <div class="flora-image-container">
+                            <img src="https://media.istockphoto.com/id/1388887198/photo/blooming-corpse-lily-amorphophallus-titanum.webp?a=1&b=1&s=612x612&w=0&k=20&c=O344QnOdhPVM49YiFlGrWNBOsp-3WXJKc2MeXNnU49c=" alt="Amorphophallus titanum" class="flora-image">
+                        </div>
+                        <div class="p-6">
+                            <span class="inline-block bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full font-semibold mb-3">Terancam Punah (EN)</span>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Bunga Bangkai Raksasa</h3>
+                            <p class="text-sm text-gray-500 mb-4 italic">Amorphophallus titanum</p>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Salah satu bunga tertinggi di dunia, terkenal dengan siklus mekar yang langka. Endemik di hutan hujan Sumatera.
+                            </p>
+                            <a href="#" class="btn-detail">
+                                Detail Spesies
+                                <svg data-lucide="arrow-right" class="w-4 h-4 ml-2"></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flora-card bg-white shadow-xl">
+                        <div class="flora-image-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGbgezdRVcua-auh-YaWRDspESz4bHusocpg&s" alt="Bambu Manggong" class="flora-image">
+                        </div>
+                        <div class="p-6">
+                            <span class="inline-block bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full font-semibold mb-3">Kritis (CR)</span>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Bambu Manggong</h3>
+                            <p class="text-sm text-gray-500 mb-4 italic">gigantochloa manggong</p>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Bambu endemik Indonesia dengan ciri batang besar berwarna hijau, ruas jelas, dan tinggi bisa mencapai 20-30 meter.
+                            </p>
+                            <a href="#" class="btn-detail">
+                                Detail Spesies
+                                <svg data-lucide="arrow-right" class="w-4 h-4 ml-2"></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flora-card bg-white shadow-xl">
+                        <div class="flora-image-container">
+                            <img src="https://img.inews.co.id/media/1200/files/inews_new/2021/10/21/mangga_kasturi.jpg" alt="Bunga Rafflesia Arnoldii" class="flora-image">
+                        </div>
+                        <div class="p-6">
+                            <span class="inline-block bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full font-semibold mb-3">Kritis (CR)</span>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Mangga Kasturi</h3>
+                            <p class="text-sm text-gray-500 mb-4 italic">Mangifera Casturi</p>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                mangga endemik Kalimantan Selatan yang berukuran kecil, berbentuk oval, dengan kulit berwarna ungu tua saat matang yang dihiasi bintik putih.
+                            </p>
+                            <a href="#" class="btn-detail">
+                                Detail Spesies
+                                <svg data-lucide="arrow-right" class="w-4 h-4 ml-2"></svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="flora-card bg-white shadow-xl">
+                        <div class="flora-image-container">
+                            <img src="https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2025/06/05111938/cendana-AI-genrated.jpg.webp" alt="Pohon Cendana" class="flora-image">
+                        </div>
+                        <div class="p-6">
+                            <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full font-semibold mb-3">Rentan (VU)</span>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">Pohon Cendana</h3>
+                            <p class="text-sm text-gray-500 mb-4 italic">Santalum album</p>
+                            <p class="text-gray-600 mb-4 text-sm">
+                                Pohon penghasil kayu beraroma khas yang sangat berharga. Kelangkaannya terutama terjadi di Nusa Tenggara Timur.
+                            </p>
+                            <a href="#" class="btn-detail">
+                                Detail Spesies
+                                <svg data-lucide="arrow-right" class="w-4 h-4 ml-2"></svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                </section>
+
+                <div class="flex justify-center mt-12">
+                    <div class="flex space-x-1 p-2 bg-white rounded-xl shadow-lg">
+                        <a href="#" class="px-4 py-2 text-gray-500 rounded-lg hover:bg-gray-100">&laquo; Sebelumnya</a>
+                        <a href="#" class="px-4 py-2 bg-primary-accent text-white rounded-lg">1</a>
+                        <a href="#" class="px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100">2</a>
+                        <a href="#" class="px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100">3</a>
+                        <a href="#" class="px-4 py-2 text-gray-500 rounded-lg hover:bg-gray-100">Berikutnya &raquo;</a>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        
+    </div>
+
+    <footer class="main-footer">
+    <div class="footer-container">
+
+        <div class="footer-column about-us">
+            <h3>Alam Nusantara</h3>
+            <p>
+                ALNU (Alam Nusantara) berdedikasi untuk mendokumentasikan 
+                keanekaragaman flora dan fauna hayati yang 
+                berada di wilayah Nusantara.
+            </p>
+            <p class="copyright">&copy; 2025 ALNU Alam Nusantara. Hak Cipta Dilindungi.</p>
+        </div>
+
+        <div class="footer-column quick-links">
+            <h3>Navigasi Cepat</h3>
+            <ul>
+                <li><a href="Landing-Page2.html">Beranda</a></li>
+                <li><a href="flora2.html">Flora</a></li>
+                <li><a href="fauna2.html">Fauna</a></li>
+                <li><a href="tentang2.html">Tentang Kami</a></li>
+                <li><a href="bantuan2.html">Bantuan</a></li>
+                <li><a href="login_admin.html">Login Admin</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column contact-social">
+            <h3>Hubungi Kami</h3>
+            <div class="contact-info">
+                <p>Email: info@alamnusantara.com</p>
+            </div>
+
+        <div class="social-links">
+    
+    <p class="text-sm font-semibold mb-2">Ikuti Kami:</p>
+        <div class="flex space-x-4 items-center">
+        <a href="https://www.instagram.com" target="_blank" aria-label="Instagram" class="text-gray-300 hover:text-primary-teal transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram-icon lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            </a>
+        
+        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook" class="text-gray-300 hover:text-primary-teal transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+        </div>
+        </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
